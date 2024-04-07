@@ -6,14 +6,64 @@ module.exports = function(RED) {
 
         hooks: {
             /**
+             * onSetup - called when the Dashboard 2.0 is instantiated
+             * @param {object} RED - Node-RED runtime
+             * @param {object} config - UI Base Node Configuration
+             * @param {object} req - ExpressJS request object
+             * @param {object} res - ExpressJS response object
+             * @returns {object} - Setup object passed to the Client
+             */ 
+            onSetup: (RED, config, req, res) => {
+                return {
+                    // must ALWAYS return socketio.path if using this hook
+                    socketio: {
+                        path: `${config.path}/socketio`, 
+                    }
+                }
+            },
+            /**
              * onInput - called when a node receives a message
              * @param {object} msg - Node-RED msg object
              * @returns {object} - Returns Node-RED msg object
              */ 
             onInput: (msg) => {
                 // modify msg in anyway you like
-                msg['test'] = "fred"
-                msg['_cloudflare']['oninput'] = true
+                return msg
+            },
+            /**
+             * onAction - called when a D2.0 widget emits the `widget-action` event via SocketIO
+             * @param {object} conn - SocketIO connection object
+             * @param {object} id - Unique Node/Widget ID
+             * @param {object} msg - Node-RED msg object
+             * @returns {object} - Returns Node-RED msg object
+             */ 
+            onAction: (conn, id, msg) => {
+                // modify msg in anyway you like
+                msg.myField = "Hello World"
+                return msg
+            },
+            /**
+             * onChange - called when a D2.0 widget emits the `widget-change` event via SocketIO
+             * @param {object} conn - SocketIO connection object
+             * @param {object} id - Unique Node/Widget ID
+             * @param {object} msg - Node-RED msg object
+             * @returns {object} - Returns Node-RED msg object
+             */ 
+            onChange: (conn, id, msg) => {
+                // modify msg in anyway you like
+                msg.myField = "Hello World"
+                return msg
+            },
+            /**
+             * onLoad - called when a D2.0 widget emits the `widget-load` event via SocketIO
+             * @param {object} conn - SocketIO connection object
+             * @param {object} id - Unique Node/Widget ID
+             * @param {object} msg - Node-RED msg object
+             * @returns {object} - Returns Node-RED msg object
+             */ 
+            onLoad: (conn, id, msg) => {
+                // modify msg in anyway you like
+                msg.myField = "Hello World"
                 return msg
             },
              /**
@@ -55,6 +105,13 @@ module.exports = function(RED) {
                     return msg._client.socketId === conn.id
                 }
                 // if no specifics provided, then allow the message to be sent
+                return true
+            },
+            onCanSaveInStore: (msg) => {
+                if (msg._client?.socketId) {
+                    // if socketId is specified, then don't save in store
+                    return false
+                }
                 return true
             },
 
