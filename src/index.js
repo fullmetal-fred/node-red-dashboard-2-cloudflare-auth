@@ -104,6 +104,13 @@ module.exports = function(RED) {
                 // if no specifics provided, then allow the message to be sent
                 return true
             },
+            /**
+             * onCanSaveInStore - Checks whether, given a msg structure, the msg can be saved in the store
+             * Saving into a store is generally a bad idea if we're dealing with messages only intended for
+             * particular clients (e.g. a msg._client.socketId is specified)
+             * @param {object} msg - Node-RED msg object
+             * @returns {boolean} - Is okay to store this, or not
+             */
             onCanSaveInStore: (msg) => {
                 if (msg._client?.socketId) {
                     // if socketId is specified, then don't save in store
