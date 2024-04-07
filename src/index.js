@@ -32,11 +32,28 @@ module.exports = function(RED) {
                     console.warn("Session is not authenticated by Cloudflare tunnels, no user email detected. See headers for detail.", headers)
                 }
                 client.user = user_email
+                client.socketId = conn.id
                 client.headers = JSON.stringify(headers)
                 client.socketIp = conn.request.socket.remoteAddress
                 console.log("outbound client", client)
                 msg._client = client
                 return msg
+            },
+            /**
+             * onIsValidConnection - Checks whether, given a msg structure and Socket connection,
+             * any _client data specified allows for this message to be sent, e.g.
+             * if the msg._client.socketid is the same as the connection's ID
+             * @param {object} conn - SocketIO connection object
+             * @param {object} msg - Node-RED msg object
+             * @returns {boolean} - Is a valid connection or not
+             */ 
+            onIsValidConnection: (conn, msg) => {
+                if (msg._client?.socketId) {
+                    // if socketId is specified, check that it matches the connection's ID
+                    return msg._client.socketId === conn.id
+                }
+                // if no specifics provided, then allow the message to be sent
+                return true
             },
 
         }
