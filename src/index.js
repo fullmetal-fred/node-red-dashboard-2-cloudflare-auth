@@ -24,19 +24,21 @@ module.exports = function(RED) {
              */ 
             onAddConnectionCredentials: (conn, msg) => {
                 // modify msg in anyway you like
-                let client = msg._client || {};
-                console.log("inbound client", client)
+                console.log("inbound msg", msg)
+                let user = {}
                 const headers = conn.request.headers
                 const user_email = headers["cf-access-authenticated-user-email"] || null;
                 if (!user_email) {
                     console.warn("Session is not authenticated by Cloudflare tunnels, no user email detected. See headers for detail.", headers)
                 }
-                client.user = user_email
-                client.socketId = conn.id
-                client.headers = JSON.stringify(headers)
-                client.socketIp = conn.request.socket.remoteAddress
-                console.log("outbound client", client)
-                msg._client = client
+                user.userId = user_email
+                user.username = user_email
+                user.email = user_email
+                user.name = user_email
+                user.image = null
+                msg._client = { ...msg._client, ...user}
+                msg._headers = JSON.stringify(headers)
+                console.log("outbound msg", msg)
                 return msg
             },
             /**
