@@ -39,7 +39,7 @@ module.exports = function(RED) {
              */ 
             onAction: (conn, id, msg) => {
                 // modify msg in anyway you like
-                msg.myField = "Hello World"
+                msg = { ...msg, myField: "OnAction" }
                 return msg
             },
             /**
@@ -51,7 +51,7 @@ module.exports = function(RED) {
              */ 
             onChange: (conn, id, msg) => {
                 // modify msg in anyway you like
-                msg.myField = "Hello World"
+                msg = { ...msg, myField: "OnChange" }
                 return msg
             },
             /**
@@ -63,7 +63,7 @@ module.exports = function(RED) {
              */ 
             onLoad: (conn, id, msg) => {
                 // modify msg in anyway you like
-                msg.myField = "Hello World"
+                msg = { ...msg, myField: "OnLoad" }
                 return msg
             },
              /**
