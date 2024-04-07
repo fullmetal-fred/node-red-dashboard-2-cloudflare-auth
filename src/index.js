@@ -36,7 +36,7 @@ module.exports = function(RED) {
                 user.email = user_email
                 user.name = user_email
                 user.image = null
-                msg._client = { ...msg._client, ...user}
+                msg._client.user = user
                 msg._headers = JSON.stringify(headers)
                 console.log("outbound msg", msg)
                 return msg
