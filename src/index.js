@@ -78,6 +78,7 @@ module.exports = function(RED) {
                 if (!user_email) {
                     console.warn("Session is not authenticated by Cloudflare tunnels, no user email detected. See headers for detail.", headers)
                 }
+                user.authSource = "Cloudflare Access"
                 user.userId = user_email
                 user.username = user_email
                 user.email = user_email
