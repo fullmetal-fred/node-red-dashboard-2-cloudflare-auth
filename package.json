@@ -10,6 +10,9 @@
       "node-red-dashboard-2-cloudflare-auth": "src/index.js"
     }
   },
+  "dependencies": {
+    "@flowfuse/node-red-dashboard": "^1.7.0"
+  },
   "license": "AGPL-3.0-or-later",
   "repository": {
     "type": "git",
