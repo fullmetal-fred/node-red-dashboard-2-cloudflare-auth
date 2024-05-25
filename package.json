@@ -1,9 +1,12 @@
 {
   "name": "node-red-dashboard-2-cloudflare-auth",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "When used with Cloudflare Tunnels authentication, this plugin will pass the email address of an authenticated user into the _client object under _client.user.email",
   "main": "src/index.js",
-  "scripts": {},
+  "scripts": {
+    "predev": "cd .node-red-data && npm install ../",
+    "dev": "node-red --userDir .node-red-data --settings settings.js"
+  },
   "author": "Frederick Loucks (https://github.com/fullmetal-fred)",
   "node-red": {
     "plugins": {
@@ -11,7 +14,11 @@
     }
   },
   "dependencies": {
-    "@flowfuse/node-red-dashboard": "^1.7.0"
+    "@flowfuse/node-red-dashboard": "^1.10"
+  },
+  "devDependencies": {
+    "node-red": "^3.1",
+    "nodemon": "3.1.0"
   },
   "license": "AGPL-3.0-or-later",
   "repository": {

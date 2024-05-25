@@ -1,2 +1,5 @@
 other/
 node_modules
+.config.*
+.node-red-data/*
+.flows.json.*
