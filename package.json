@@ -1,17 +1,21 @@
 {
   "name": "@fullmetal-fred/node-red-dashboard-2-cloudflare-auth",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "When used with Cloudflare Access authentication, this plugin will pass the email address of an authenticated user into the _client object under _client.user.email",
   "main": "src/index.js",
   "scripts": {
-    "predev": "cd .node-red-data && npm install ../",
+    "predev": "cd .node-red-data && npm install -f ../",
     "dev": "node-red --userDir .node-red-data --settings settings.js"
   },
   "author": "Frederick Loucks (https://github.com/fullmetal-fred)",
   "node-red": {
+    "version": ">=3.1",
     "plugins": {
       "node-red-dashboard-2-cloudflare-auth": "src/index.js"
     }
+  },
+  "engines": {
+    "node": ">=16.20"
   },
   "keywords": [
     "node-red",
