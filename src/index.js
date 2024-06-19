@@ -20,15 +20,14 @@ module.exports = function (RED) {
           headers["cf-access-authenticated-user-email"] || null;
         if (!user_email) {
           console.warn(
-            "Session is not authenticated by Cloudflare tunnels, no user email detected. See headers for detail.",
+            "Session is not authenticated by Cloudflare tunnels; no user email detected. See msg._client.user._headers for detail.",
             headers
           );
         }
         user.provider = "Cloudflare Access";
         user.email = user_email;
+        user._headers = JSON.stringify(headers);
         msg._client.user = user;
-        msg._headers = JSON.stringify(headers);
-        console.log("outbound msg", msg);
         return msg;
       },
     },
