@@ -1,6 +1,6 @@
-console.log("test nodemon");
+let plugin_name = "node-red-dashboard-2-cloudflare-auth";
 module.exports = function (RED) {
-  RED.plugins.registerPlugin("node-red-dashboard-2-cloudflare-auth", {
+  RED.plugins.registerPlugin(plugin_name, {
     // Tells Node-RED this is a Node-RED Dashboard 2.0 plugin
     type: "node-red-dashboard-2",
 
@@ -12,22 +12,33 @@ module.exports = function (RED) {
        * @returns {object} - Returns Node-RED msg object
        */
       onAddConnectionCredentials: (conn, msg) => {
-        // modify msg in anyway you like
-        console.log("inbound msg", msg);
-        let user = {};
+        if (!msg._client) {
+          console.log(
+            `${plugin_name}: msg._client is not found, not adding user info. This sometimes happens when the editor is refreshed with stale connections to the dashboard.`
+          );
+          return msg;
+        }
+        var user = {};
         const headers = conn.request.headers;
         const user_email =
           headers["cf-access-authenticated-user-email"] || null;
         if (!user_email) {
           console.warn(
-            "Session is not authenticated by Cloudflare tunnels; no user email detected. See msg._client.user._headers for detail.",
-            headers
+            `${plugin_name}: Session is not authenticated by Cloudflare Access; no user email detected. See headers: ${JSON.stringify(
+              headers
+            )}`
+          );
+        } else {
+          console.log(
+            `${plugin_name}: Dashboard interacted with by ${user_email}`
           );
         }
+        user.host = headers["host"] || null;
+        user.ip = headers["cf-connecting-ip"] || null;
+        user.agent = headers["user-agent"] || null;
         user.provider = "Cloudflare Access";
         user.email = user_email;
-        user._headers = JSON.stringify(headers);
-        msg._client.user = user;
+        msg._client["user"] = user;
         return msg;
       },
     },
