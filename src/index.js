@@ -33,11 +33,12 @@ module.exports = function (RED) {
             `${plugin_name}: Dashboard interacted with by ${user_email}`
           );
         }
+        user.userId = user_email;
+        user.email = user_email;
         user.host = headers["host"] || null;
         user.ip = headers["cf-connecting-ip"] || null;
         user.agent = headers["user-agent"] || null;
         user.provider = "Cloudflare Access";
-        user.email = user_email;
         msg._client["user"] = user;
         return msg;
       },
