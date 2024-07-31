@@ -12,7 +12,7 @@
         "github.vscode-github-actions"
       ]
     }
-  }
+  },
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
@@ -21,7 +21,7 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "",
+  "postCreateCommand": "timeout 5s npx node-red --userDir .node-red-data --settings settings.js || cd .node-red-data && npm install -f ../"
 
   // Configure tool-specific properties.
   // "customizations": {},
