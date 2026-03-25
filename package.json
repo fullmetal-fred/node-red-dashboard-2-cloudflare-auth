@@ -9,13 +9,13 @@
   },
   "author": "Frederick Loucks (https://github.com/fullmetal-fred)",
   "node-red": {
-    "version": ">=3.1",
+    "version": ">=4.0",
     "plugins": {
       "node-red-dashboard-2-cloudflare-auth": "src/index.js"
     }
   },
   "engines": {
-    "node": ">=16.20"
+    "node": ">=18.5"
   },
   "keywords": [
     "node-red",
@@ -27,11 +27,11 @@
     "authentication"
   ],
   "dependencies": {
-    "@flowfuse/node-red-dashboard": "^1.10"
+    "@flowfuse/node-red-dashboard": "^1.30"
   },
   "devDependencies": {
-    "node-red": "^3.1",
-    "nodemon": "3.1.0"
+    "node-red": "^4.1",
+    "nodemon": "3.1.14"
   },
   "license": "AGPL-3.0-or-later",
   "repository": {
